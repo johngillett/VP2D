@@ -1,51 +1,50 @@
 ﻿using Assets.Code.Models;
+using Assets.Code.Scripts;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Assets.Code.Services
 {
 	public class WorldGenerator : MonoBehaviour
-    {
+	{
 
 		[SerializeField]
-		private GameObject wildTile;
+		private TerrainTile waterTile;
 
 		[SerializeField]
-		private GameObject dirtTile;
+		private RandomTile grassTile;
 
 		[SerializeField]
-		private GameObject grassTile;
+		private Tile sandTile;
+
+	    [SerializeField] private Tilemap map;
 
 		void Start () {
-			GenerateEmptyWorld (10, 10);
+			GenerateEmptyWorld (map.size.x, map.size.y);
 		}
 
-		public GameObject[,] GenerateEmptyWorld(int width, int height)
+		public void GenerateEmptyWorld(int width, int height)
         {
-			var world = new GameObject[width,height];
-
             for (var x = 0; x < width; x++)
             {
                 for (var y = 0; y < height; y++)
                 {
-					GameObject tile = null;
-
 					switch (Random.Range (1, 4)) {
 						case 1:
-							tile = wildTile;
-							break;
-						case 2:
-							tile = dirtTile;
-							break;
-						case 3:
-							tile = grassTile;
-							break;
-					}
+                            map.SetTile(new Vector3Int(x, y, 0), grassTile);
 
-					Instantiate(tile, new Vector3(x, y), Quaternion.identity);
+                            //ScriptableObject.Instantiate(grassTile, new Vector3(x, y), Quaternion.identity);
+                            break;
+						case 2:
+						    map.SetTile(new Vector3Int(x, y, 0), waterTile);
+                            break;
+						case 3:
+						    map.SetTile(new Vector3Int(x, y, 0), sandTile);
+                            //Instantiate(sandTile, new Vector3(x, y), Quaternion.identity);
+                            break;
+					}
                 }
             }
-
-            return world;
         }
     }
 }
