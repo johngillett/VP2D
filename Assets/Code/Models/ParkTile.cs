@@ -15,5 +15,9 @@ namespace Assets.Code.Models
 		public void setPosition(int x, int y) {
 			this.Position = new Position (x, y);
 		}
+
+		void OnMouseDown() {
+			Debug.Log("You just cliked on " + tileType);
+		}
     }
 }
