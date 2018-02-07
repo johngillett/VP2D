@@ -1,23 +1,40 @@
 ﻿using System;
-using UnityEditor;
+using Assets.Code.Interfaces;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Random = UnityEngine.Random;
+using Random = System.Random;
+
 #if UNITY_EDITOR
+using UnityEditor;
 #endif
 
 namespace Assets.Code.Scripts
 {
     [Serializable]
-    public class GrowableTile : TileBase
+    public class GrowableTile : Tile, ITickable
     {
         public Sprite[] m_Sprites;
-        public float m_MinGrowTicksPerStage = 100f;
-        public float m_MaxGrowTicksPerStage = 100f;
+        public float m_MinGrowTicksPerStage = 10f;
+        public float m_MaxGrowTicksPerStage = 10f;
         public Tile.ColliderType m_TileColliderType;
         private int _currentStage = 0;
         private int _currentTicks = 0;
-        private int _currentGrowthTickGoal = 100;
+        private int _currentGrowthTickGoal = 10;
+        private Guid Id;
+
+
+        public GrowableTile()
+        {
+            _currentStage = 0;
+            _currentTicks = 0;
+            Id = Guid.NewGuid();
+        }
+
+        public override bool StartUp(Vector3Int location, ITilemap tilemap, GameObject go)
+        {
+            Clock.Instance.AddThingToTick(this);
+            return true;
+        }
 
         public override void GetTileData(Vector3Int location, ITilemap tileMap, ref TileData tileData)
         {
@@ -29,9 +46,14 @@ namespace Assets.Code.Scripts
             }
         }
 
-        public void HandleGrowTick(int numberOfTicks)
+        public Guid GetUniqueId()
         {
-            _currentTicks++;
+            return Id;
+        }
+
+        public void HandleTicks(int numberOfTicks)
+        {
+            _currentTicks += numberOfTicks;
 
             if (_currentTicks >= _currentGrowthTickGoal)
             {
@@ -41,12 +63,13 @@ namespace Assets.Code.Scripts
 
         private void Grow()
         {
+            var random = new Random();
             _currentTicks = 0;
             if (_currentStage < m_Sprites.Length - 1)
             {
                 _currentStage++;
-
-                _currentGrowthTickGoal = (int) Random.Range(m_MinGrowTicksPerStage, m_MaxGrowTicksPerStage);
+                //this.sprite = m_Sprites[_currentStage];
+                _currentGrowthTickGoal = random.Next((int)m_MinGrowTicksPerStage, (int)m_MaxGrowTicksPerStage);
             }
             else
             {
@@ -65,6 +88,7 @@ namespace Assets.Code.Scripts
             AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<GrowableTile>(), path);
         }
 #endif
+       
     }
 
 #if UNITY_EDITOR

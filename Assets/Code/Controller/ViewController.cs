@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.UIElements;
 
 public class ViewController : MonoBehaviour {
 	private float dist;
@@ -39,9 +40,9 @@ public class ViewController : MonoBehaviour {
 
 		Debug.Log (dragSpeed);
 
-		if (Input.GetMouseButtonDown (1)) {
+		if (Input.GetMouseButtonDown ((int)MouseButton.MiddleMouse)) {
 			MouseStart = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, dist);
-		} else if (Input.GetMouseButton (1)) {
+		} else if (Input.GetMouseButton ((int)MouseButton.MiddleMouse)) {
 			MouseMove = new Vector3 (Input.mousePosition.x - MouseStart.x, Input.mousePosition.y - MouseStart.y, dist);
 			MouseStart = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, dist);
 
