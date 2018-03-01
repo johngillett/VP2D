@@ -23,3 +23,5 @@ sysinfo.txt
 *.lock
 
 *.ide
+
+\.vs/VivaPinata 2D/v15/Server/sqlite3/
