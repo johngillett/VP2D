@@ -38,8 +38,6 @@ public class ViewController : MonoBehaviour {
 
 		float dragSpeed = Mathf.Pow(baseDragSpeed + (screenSize / maxScreenSize), 2);
 
-		//Debug.Log (dragSpeed);
-
 		if (Input.GetMouseButtonDown ((int)MouseButton.MiddleMouse)) {
 			MouseStart = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, dist);
 		} else if (Input.GetMouseButton ((int)MouseButton.MiddleMouse)) {
