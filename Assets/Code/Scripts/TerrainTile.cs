@@ -8,7 +8,7 @@ using UnityEngine.Tilemaps;
 namespace Assets.Code.Scripts
 {
     [Serializable]
-    public class TerrainTile : TileBase
+    public class TerrainTile : Tile
     {
         [SerializeField]
         public Sprite[] m_Sprites;
