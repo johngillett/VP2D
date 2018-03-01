@@ -11,28 +11,36 @@ using UnityEditor;
 namespace Assets.Code.Scripts
 {
     [Serializable]
-    public class GrowableTile : Tile, ITickable
+    public class GrowableTile : Tile, ITickable, IWaterable
     {
         public Sprite[] m_Sprites;
         public float m_MinGrowTicksPerStage = 10f;
         public float m_MaxGrowTicksPerStage = 10f;
+        public int minimimumOptimalWater = 0;
+        public int maximumOptimalWater = 100;
         public Tile.ColliderType m_TileColliderType;
-        private int _currentStage = 0;
-        private int _currentTicks = 0;
+
+
+        private int _currentStage;
+        private int _currentGrowTicks;
         private int _currentGrowthTickGoal = 10;
         private Guid Id;
+        private int _currentAmountOfWater;
+        private int percentOfOptimalWaterRange;
 
 
         public GrowableTile()
         {
             _currentStage = 0;
-            _currentTicks = 0;
+            _currentGrowTicks = 0;
+            _currentAmountOfWater = 50;
             Id = Guid.NewGuid();
         }
 
         public override bool StartUp(Vector3Int location, ITilemap tilemap, GameObject go)
         {
             Clock.Instance.AddThingToTick(this);
+            percentOfOptimalWaterRange = (maximumOptimalWater - minimimumOptimalWater) / 10;
             return true;
         }
 
@@ -53,27 +61,56 @@ namespace Assets.Code.Scripts
 
         public void HandleTicks(int numberOfTicks)
         {
-            _currentTicks += numberOfTicks;
+            _currentAmountOfWater -= numberOfTicks;
 
-            if (_currentTicks >= _currentGrowthTickGoal)
+            // Only add a Grow Tick if Plant has optimal amount of water
+            if (_currentAmountOfWater > minimimumOptimalWater && _currentAmountOfWater < maximumOptimalWater)
+            {
+                _currentGrowTicks += numberOfTicks;
+            }
+
+            // If plant strays more than a certain percent under Min optimal or over Max optimal, start regressing in growth
+            if (_currentAmountOfWater < minimimumOptimalWater - percentOfOptimalWaterRange ||
+                _currentAmountOfWater > maximumOptimalWater + percentOfOptimalWaterRange)
+            {
+                _currentGrowTicks -= numberOfTicks;
+            }
+
+            if (_currentGrowTicks >= _currentGrowthTickGoal)
             {
                 Grow();
+            }
+            else if (_currentGrowTicks < 0)
+            {
+                Ungrow();
             }
         }
 
         private void Grow()
         {
             var random = new Random();
-            _currentTicks = 0;
+            _currentGrowTicks = 0;
             if (_currentStage < m_Sprites.Length - 1)
             {
                 _currentStage++;
+                _currentAmountOfWater -= percentOfOptimalWaterRange;
                 //this.sprite = m_Sprites[_currentStage];
                 _currentGrowthTickGoal = random.Next((int)m_MinGrowTicksPerStage, (int)m_MaxGrowTicksPerStage);
             }
             else
             {
                 _currentGrowthTickGoal = (int) m_MaxGrowTicksPerStage;
+            }
+        }
+
+        private void Ungrow()
+        {
+            var random = new Random();
+            _currentGrowthTickGoal = random.Next((int)m_MinGrowTicksPerStage, (int)m_MaxGrowTicksPerStage);
+            _currentGrowTicks = _currentGrowthTickGoal - 1;
+            if (_currentStage > 0)
+            {
+                _currentStage--;
             }
         }
 
@@ -88,7 +125,11 @@ namespace Assets.Code.Scripts
             AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<GrowableTile>(), path);
         }
 #endif
-       
+
+        public void HandleWater(int amountOfWater)
+        {
+            amountOfWater += amountOfWater;
+        }
     }
 
 #if UNITY_EDITOR
