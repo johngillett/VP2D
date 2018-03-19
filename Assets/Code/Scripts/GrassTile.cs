@@ -10,8 +10,12 @@ using UnityEditor;
 
 public class GrassTile : RandomTile, InteractableTile {
 
-	public void interact (ToolBar.ToolType tool) {
+	public void interact (ToolBar.ToolType tool, Vector3Int pos) {
 		Debug.Log ("YO WHATS UP IM A GRASS TILE");
+		Debug.Log ("Using tool: " + tool);
+		if(tool.Equals(ToolBar.ToolType.Shovel)) {
+			TerrainGlossary.Instance.setTile (pos, TerrainGlossary.Instance.waterTile);
+		}
 	}
 
 	#if UNITY_EDITOR

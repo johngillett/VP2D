@@ -2195,6 +2195,7 @@ GameObject:
   - component: {fileID: 1577492429}
   - component: {fileID: 1577492431}
   - component: {fileID: 1577492432}
+  - component: {fileID: 1577492433}
   m_Layer: 0
   m_Name: Engine
   m_TagString: Untagged
@@ -2213,10 +2214,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bb0686995f704049a840420b1224756, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waterTile: {fileID: 11400000, guid: 7c2acba9ac55f0e45843ef060dffdf98, type: 2}
-  grassTile: {fileID: 11400000, guid: 7760273a3cfe3944dbb2696f66c0575b, type: 2}
-  sandTile: {fileID: 11400000, guid: 1f5e31c841732c9418ab9e0d308969a9, type: 2}
-  map: {fileID: 904396544}
 --- !u!4 &1577492430
 Transform:
   m_ObjectHideFlags: 0
@@ -2258,7 +2255,21 @@ MonoBehaviour:
   shovelTexture: {fileID: 0}
   cursorMode: 0
   hotSpot: {x: 0, y: 0}
-  groundTiles: {fileID: 904396544}
+--- !u!114 &1577492433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1577492428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af238c756cd7a6a48ba8c3e68a1d527f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileMap: {fileID: 904396544}
+  grassTile: {fileID: 11400000, guid: 7760273a3cfe3944dbb2696f66c0575b, type: 2}
+  waterTile: {fileID: 11400000, guid: d79f898d1a24453438e5035051a5c446, type: 2}
+  sandTile: {fileID: 11400000, guid: 1f5e31c841732c9418ab9e0d308969a9, type: 2}
 --- !u!1 &1654879088
 GameObject:
   m_ObjectHideFlags: 0

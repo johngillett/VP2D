@@ -15,20 +15,18 @@ public class ToolBar : MonoBehaviour {
 	public CursorMode cursorMode = CursorMode.Auto;
 	public Vector2 hotSpot = Vector2.zero;
 
-	[SerializeField]
-	public Tilemap groundTiles; 
-
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetMouseButtonDown(0))
 		{
 			Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			Debug.Log(string.Format("Co-ords of mouse is [X: {0} Y: {0}]", pos.x, pos.y));
-			InteractableTile tile = (InteractableTile) groundTiles.GetTile(groundTiles.WorldToCell(pos));
+			Vector3Int cellPos = TerrainGlossary.Instance.tileMap.WorldToCell (pos);
+			InteractableTile tile = (InteractableTile) TerrainGlossary.Instance.tileMap.GetTile(cellPos);
 
 			if (tile != null)
 			{	
-				tile.interact (tool);
+				tile.interact (tool, cellPos);
 				Debug.Log(string.Format("Tile is: {0}", tile.GetType()));
 			}
 		}
