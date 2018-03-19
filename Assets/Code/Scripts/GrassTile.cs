@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Code.Interfaces;
 using UnityEngine;
 using Assets.Code.Scripts;
 
@@ -8,27 +9,30 @@ using Assets.Code.Scripts;
 using UnityEditor;
 #endif
 
-public class GrassTile : RandomTile, InteractableTile {
+public class GrassTile : RandomTile, IInteractable
+{
 
-	public void interact (ToolBar.ToolType tool, Vector3Int pos) {
-		Debug.Log ("YO WHATS UP IM A GRASS TILE");
-		Debug.Log ("Using tool: " + tool);
-		if(tool.Equals(ToolBar.ToolType.Shovel)) {
-			TerrainGlossary.Instance.setTile (pos, TerrainGlossary.Instance.waterTile);
-		}
-	}
+    public void Interact(ToolBar.ToolType tool, Vector3Int pos)
+    {
+        Debug.Log("YO WHATS UP IM A GRASS TILE");
+        Debug.Log("Using tool: " + tool);
+        if (tool.Equals(ToolBar.ToolType.Shovel))
+        {
+            TerrainGlossary.Instance.setTile(pos, TerrainGlossary.Instance.waterTile);
+        }
+    }
 
-	#if UNITY_EDITOR
-	[MenuItem("Assets/Create/Grass Tile")]
-	public static void CreateGrassTile()
-	{
-		string path = EditorUtility.SaveFilePanelInProject("Save Grass Tile", "New Grass Tile", "asset", "Save Grass Tile", "Assets");
-		if (path == "")
-			return;
+#if UNITY_EDITOR
+    [MenuItem("Assets/Create/Grass Tile")]
+    public static void CreateGrassTile()
+    {
+        string path = EditorUtility.SaveFilePanelInProject("Save Grass Tile", "New Grass Tile", "asset", "Save Grass Tile", "Assets");
+        if (path == "")
+            return;
 
-		AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<GrassTile>(), path);
-	}
-	#endif
+        AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<GrassTile>(), path);
+    }
+#endif
 
 }
 
