@@ -12,15 +12,13 @@ using UnityEditor;
 public class WaterTile : TerrainTile, IInteractable
 {
 
-    public void Interact(ToolBar.ToolType tool, Vector3Int pos)
-    {
-        Debug.Log("YO WHATS UP IM A WATER TILE");
-        Debug.Log("Using tool: " + tool);
-        if (tool.Equals(ToolBar.ToolType.Shovel))
-        {
-            TerrainGlossary.Instance.setTile(pos, TerrainGlossary.Instance.grassTile);
-        }
-    }
+	public void Interact (ToolBar.ToolType tool, Vector3Int pos) {
+		Debug.Log ("YO WHATS UP IM A WATER TILE");
+		Debug.Log ("Using tool: " + tool);
+		if(tool.Equals(ToolBar.ToolType.Shovel)) {
+			TerrainGlossary.Instance.setTile (pos, TerrainGlossary.Instance.dirtTile);
+		}
+	}
 
 #if UNITY_EDITOR
     [MenuItem("Assets/Create/Water Tile")]

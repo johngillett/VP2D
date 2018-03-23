@@ -22,8 +22,8 @@ public class ToolBar : MonoBehaviour
         {
             Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Debug.Log(string.Format("Co-ords of mouse is [X: {0} Y: {0}]", pos.x, pos.y));
-            Vector3Int cellPos = TerrainGlossary.Instance.tileMap.WorldToCell(pos);
-            IInteractable tile = (IInteractable)TerrainGlossary.Instance.tileMap.GetTile(cellPos);
+			Vector3Int cellPos = TerrainGlossary.Instance.groundMap.WorldToCell(pos);
+			IInteractable tile = (IInteractable)TerrainGlossary.Instance.groundMap.GetTile(cellPos);
 
             if (tile != null)
             {

@@ -7,18 +7,19 @@ public class TerrainGlossary : MonoBehaviour {
 
 	public static TerrainGlossary Instance;
 
-	[SerializeField] public Tilemap tileMap;
+	[SerializeField] public Tilemap groundMap;
 
 	[SerializeField] public TileBase grassTile;
 	[SerializeField] public TileBase waterTile;
-	[SerializeField] public TileBase sandTile;
+	[SerializeField] public TileBase dryEarthTile;
+	[SerializeField] public TileBase dirtTile;
 
 	public TerrainGlossary() {
 		Instance = this;
 	}
 
 	public void setTile(Vector3Int pos, TileBase tile) {
-		tileMap.SetTile (pos, tile);
+		groundMap.SetTile (pos, tile);
 	}
 
 
